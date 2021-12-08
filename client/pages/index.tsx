@@ -3,16 +3,45 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 import { useHello } from '../hooks/hello'
-import { ReactEventHandler, useCallback, useEffect, useState } from 'react'
+import { useUpload } from '../hooks/upload'
+import { ReactEventHandler, useEffect, useState } from 'react'
 
 const Home: NextPage = () => {
+  const { upload } = useUpload()
   const { sayHello } = useHello()
   const [message, setMessage] = useState('-')
   const [name, setName] = useState('World')
 
-  const onSubmit: ReactEventHandler = async (e) => {
+  const onSubmitEcho: ReactEventHandler = async (e) => {
     e.preventDefault()
     setMessage(await sayHello(name))
+  }
+
+  const [ uploadDisabled, setUploadDisabled ] = useState(true)
+  const [ uploadName, setUploadName ] = useState('')
+  const [ uploadSize, setUploadSize ] = useState(0)
+  const [ uploadData, setUploadData ] = useState('')
+
+  const onChangeFileInput = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault()
+    setUploadDisabled(true)
+    const file = e.target.files ? e.target.files[0] : null
+    if (!file) {
+      return
+    }
+    const reader = new FileReader()
+    reader.readAsDataURL(file)
+    reader.addEventListener('load', () => {
+      setUploadName(file.name)
+      setUploadSize(file.size)
+      setUploadData((reader.result as string).split(',')[1])
+      setUploadDisabled(false)
+    });
+  }
+
+  const onSubmitUpload: ReactEventHandler = async (e) => {
+    e.preventDefault()
+    await upload(uploadName, uploadSize, uploadData)
   }
 
   useEffect(() => {
@@ -33,7 +62,8 @@ const Home: NextPage = () => {
         </h1>
 
         <div className={styles.description}>
-          <form onSubmit={onSubmit}>
+          <h2>Echo</h2>
+          <form onSubmit={onSubmitEcho}>
             <dl>
               <dt>REQUEST</dt>
               <dd><input value={name} onChange={ (e) => { setName(e.target.value) }}></input></dd>
@@ -43,6 +73,22 @@ const Home: NextPage = () => {
               <dd>{message}</dd>
             </dl>
             <input type="submit"></input>
+          </form>
+        </div>
+
+        <div className={styles.description}>
+          <h2>File Uploader</h2>
+          <form onSubmit={onSubmitUpload}>
+            <dl>
+              <dt>REQUEST</dt>
+              <dd><input type="file" onChange={onChangeFileInput}></input></dd>
+            </dl>
+            <dl>
+              <dt>RESPONSE</dt>
+              <dd>{uploadName}</dd>
+              <dd>{uploadData.substr(0, 16)}...</dd>
+            </dl>
+            <input type="submit" disabled={uploadDisabled}></input>
           </form>
         </div>
       </main>

@@ -21,6 +21,7 @@ func main() {
 	// enable reflection
 	reflection.Register(server)
 	pb.RegisterHelloServiceServer(server, &service.HelloServiceServer{})
+	pb.RegisterUploadServiceServer(server, &service.UploadServiceServer{})
 	fmt.Printf("🐈 gRPC Server is ready! (Port: %d)\n", port)
 	server.Serve(listenPort)
 }

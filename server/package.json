@@ -6,7 +6,7 @@
     "dev": "if which air >/dev/null; then air; else go run main.go; fi",
     "build": "go build -o main ./main.go",
     "start": "./main",
-    "evans": "evans -r"
+    "repl": "evans -r repl"
   },
   "devDependencies": {}
 }
