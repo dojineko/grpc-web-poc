@@ -1,5 +1,5 @@
 /**
- * @fileoverview gRPC-Web generated client stub for hello
+ * @fileoverview gRPC-Web generated client stub for app
  * @enhanceable
  * @public
  */
@@ -36,7 +36,7 @@ export class HelloServiceClient {
   }
 
   methodInfoSayHello = new grpcWeb.MethodDescriptor(
-    '/hello.HelloService/SayHello',
+    '/app.HelloService/SayHello',
     grpcWeb.MethodType.UNARY,
     hello_pb.HelloRequest,
     hello_pb.HelloResponse,
@@ -64,7 +64,7 @@ export class HelloServiceClient {
     if (callback !== undefined) {
       return this.client_.rpcCall(
         this.hostname_ +
-          '/hello.HelloService/SayHello',
+          '/app.HelloService/SayHello',
         request,
         metadata || {},
         this.methodInfoSayHello,
@@ -72,7 +72,7 @@ export class HelloServiceClient {
     }
     return this.client_.unaryCall(
     this.hostname_ +
-      '/hello.HelloService/SayHello',
+      '/app.HelloService/SayHello',
     request,
     metadata || {},
     this.methodInfoSayHello);

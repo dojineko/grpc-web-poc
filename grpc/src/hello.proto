@@ -1,7 +1,7 @@
 syntax = "proto3";
 
-option go_package = "github.com/dojineko/grpc-web-poc/grpc/go;hello";
-package hello;
+option go_package = "github.com/dojineko/grpc-web-poc/grpc/go;app";
+package app;
 
 service HelloService {
     rpc SayHello (HelloRequest) returns (HelloResponse);

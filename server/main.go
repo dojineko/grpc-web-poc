@@ -20,8 +20,7 @@ func main() {
 	server := grpc.NewServer()
 	// enable reflection
 	reflection.Register(server)
-	helloService := &service.HelloServiceServer{}
-	pb.RegisterHelloServiceServer(server, helloService)
+	pb.RegisterHelloServiceServer(server, &service.HelloServiceServer{})
 	fmt.Printf("🐈 gRPC Server is ready! (Port: %d)\n", port)
 	server.Serve(listenPort)
 }
