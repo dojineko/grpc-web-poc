@@ -1,0 +1,27 @@
+{
+  "name": "grpc-web-poc",
+  "version": "0.0.0",
+  "private": true,
+  "workspaces": [
+    "client",
+    "server",
+    "proxy",
+    "grpc"
+  ],
+  "scripts": {
+    "dev": "run-p dev:*",
+    "dev:proxy": "yarn workspace proxy run dev",
+    "dev:client": "yarn workspace client run dev",
+    "dev:server": "yarn workspace server run dev",
+    "build": "run-s build:grpc build:server build:client",
+    "build:grpc": "yarn workspace grpc run build",
+    "build:server": "yarn workspace server run build",
+    "build:client": "yarn workspace client run build",
+    "start": "run-p start:*",
+    "start:proxy": "yarn workspace proxy run start",
+    "start:client": "yarn workspace client run start",
+    "start:server": "yarn workspace server run start",
+    "xmas": "yarn xmas"
+  },
+  "devDependencies": {}
+}
